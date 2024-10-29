@@ -15,7 +15,8 @@ data/kitti
 data/nuplan
 vscode_debugs
 debug/
-.vscode
+.vscode/*
+!.vscode/launch.json
 log*/
 wandb/
 nr3d_lib/

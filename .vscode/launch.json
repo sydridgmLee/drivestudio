@@ -1,0 +1,68 @@
+{
+    "configurations": [
+      // python datasets/preprocess.py \
+      // --data_root data/waymo/raw/ \
+      // --target_dir data/waymo/processed \
+      // --dataset waymo \
+      // --split training \
+      // --split_file data/waymo_example_scenes.txt \
+      // --workers 8 \
+      // --process_keys images lidar calib pose dynamic_masks objects
+      {
+        "name": "waymo data process",
+        "type": "debugpy",
+        "request": "launch",
+        "program": "${workspaceFolder}/datasets/preprocess.py",
+        "console": "integratedTerminal",
+        "args": [
+          "--data_root",
+          "/data/waymo/raw",
+          "--target_dir",
+          "/data/waymo/drivestudio",
+          "--dataset",
+          "waymo",
+          "--split",
+          "training",
+          "--scene_ids",
+          "23",
+          // "--split_file",
+          // "data/waymo_example_scenes.txt",
+          "--workers",
+          "8",
+          "--process_keys",
+          "images",
+          "lidar",
+          "calib",
+          "pose",
+          "dynamic_masks",
+          "objects"
+        ]
+      },
+      // python datasets/waymo/waymo_download.py \
+      // --target_dir ./data/waymo/raw \
+      // --split_file data/waymo_example_scenes.txt
+      {
+        "name": "waymo download",
+        "type": "debugpy",
+        "request": "launch",
+        "program": "${workspaceFolder}/datasets/waymo/waymo_download.py",
+        "console": "integratedTerminal",
+        "args": [
+          "--target_dir",
+          "/data/waymo/raw",
+          "--split_file",
+          "data/waymo_example_scenes.txt"
+        ]
+      }
+      // python tools/train.py \
+      // --config_file configs/omnire.yaml \
+      // --output_root $output_root \
+      // --project $project \
+      // --run_name $expname \
+      // dataset=waymo/3cams \
+      // data.scene_idx=$scene_idx \
+      // data.start_timestep=$start_timestep \
+      // data.end_timestep=$end_timestep
+    ]
+  }
+  

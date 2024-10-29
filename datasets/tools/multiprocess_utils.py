@@ -2,11 +2,13 @@
 @brief Parallel processing utilities
 @note Borrowed from: https://github.com/NVlabs/EmerNeRF
 """
+
 import sys
 import time
 from collections.abc import Iterable
 from multiprocessing import Pool
 from shutil import get_terminal_size
+
 
 class ProgressBar:
     """A progress bar which can print the progress."""

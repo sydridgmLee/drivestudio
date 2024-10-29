@@ -25,6 +25,13 @@ def download_file(filename, target_dir, source):
         )  # Raise an exception with the error message from the gsutil command
 
 
+def is_file_exist(file_name: str, target_dir: str) -> bool:
+    for dp, dn, fn in os.walk(target_dir):
+        if f"{file_name}.tfrecord" in fn:
+            return True
+    return False
+
+
 def download_files(
     file_names: List[str],
     target_dir: str,
@@ -40,6 +47,13 @@ def download_files(
     """
     # Get the total number of file_names
     total_files = len(file_names)
+
+    # check file existence
+    file_names = [
+        file_name
+        for file_name in file_names
+        if not is_file_exist(file_name, target_dir)
+    ]
 
     # Use ThreadPoolExecutor to manage concurrent downloads
     with ThreadPoolExecutor(max_workers=10) as executor:
@@ -84,4 +98,8 @@ if __name__ == "__main__":
         split_file = open(args.split_file, "r").readlines()[1:]
         scene_ids = [int(line.strip().split(",")[0]) for line in split_file]
         file_names = [total_list[i].strip() for i in scene_ids]
+
+        for i in range(len(scene_ids)):
+            print(f"{scene_ids[i]}: {file_names[i]}")
+
     download_files(file_names, args.target_dir)
