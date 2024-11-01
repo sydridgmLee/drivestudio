@@ -14,6 +14,7 @@ import tensorflow as tf
 from waymo_open_dataset.utils import range_image_utils, transform_utils
 from waymo_open_dataset.wdl_limited.camera.ops import py_camera_model_ops
 
+
 def project_vehicle_to_image(vehicle_pose, calibration, points):
     """Projects from vehicle coordinate system to image with global shutter.
 
@@ -279,7 +280,7 @@ def convert_range_image_to_point_cloud_flow(
     Args:
         frame: open dataset frame
         range_images: A dict of {laser_name, [range_image_first_return, range_image_second_return]}.
-        range_imaages_flow: A dict similar to range_images.
+        range_images_flow: A dict similar to range_images.
         camera_projections: A dict of {laser_name,
             [camera_projection_from_first_return, camera_projection_from_second_return]}.
         range_image_top_pose: range image pixel pose for top lidar.
@@ -351,7 +352,10 @@ def convert_range_image_to_point_cloud_flow(
 
         mask_index = tf.where(range_image_mask)
 
-        (origins_cartesian, points_cartesian,) = extract_point_cloud_from_range_image(
+        (
+            origins_cartesian,
+            points_cartesian,
+        ) = extract_point_cloud_from_range_image(
             tf.expand_dims(range_image_tensor[..., 0], axis=0),
             tf.expand_dims(extrinsic, axis=0),
             tf.expand_dims(tf.convert_to_tensor(beam_inclinations), axis=0),
@@ -401,7 +405,8 @@ def convert_range_image_to_point_cloud_flow(
         points_elongation,
         laser_ids,
     )
-    
+
+
 def get_ground_np(pts):
     """
     This function performs ground removal on a point cloud.

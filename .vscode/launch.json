@@ -53,7 +53,20 @@
           "--split_file",
           "data/waymo_example_scenes.txt"
         ]
-      }
+      },
+      {
+        "name": "sky mask",
+        "type": "debugpy",
+        "request": "launch",
+        "program": "${workspaceFolder}/datasets/waymo/gen_sky_mask.py",
+        "console": "integratedTerminal",
+        "args": [
+          "--datadir",
+          "/data/waymo/drivestudio/training/023",
+          "--sam_checkpoint",
+          "/data/waymo/street_gaussian/sam_vit_h_4b8939.pth"
+        ]
+      },
       // python tools/train.py \
       // --config_file configs/omnire.yaml \
       // --output_root $output_root \
@@ -63,6 +76,27 @@
       // data.scene_idx=$scene_idx \
       // data.start_timestep=$start_timestep \
       // data.end_timestep=$end_timestep
+      {
+        "name": "train",
+        "type": "debugpy",
+        "request": "launch",
+        "program": "${workspaceFolder}/tools/train.py",
+        "console": "integratedTerminal",
+        "args": [
+          "--config_file",
+          "configs/omnire.yaml",
+          "--output_root",
+          "/data/waymo/drivestudio/outputs",
+          "--project",
+          "waymo",
+          "--run_name",
+          "omnire",
+          "dataset=waymo/3cams",
+          "data.scene_idx=23",
+          "data.start_timestep=0",
+          "data.end_timestep=-1"
+        ]
+      }
     ]
   }
   
